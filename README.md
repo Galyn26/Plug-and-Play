@@ -1,69 +1,91 @@
-# 🎮 Plug-and-Play (PnP)
+# MCP-Multi-Godot Pipeline 🎮🤖
 
-**The AI-Driven Autonomous Game Studio Mesh**
-
-`Plug-and-Play` is an advanced, protocol-first, multi-agent development matrix built using the **Model Context Protocol (MCP)**. Instead of trapped monolithic prompts, this system replicates a 
-virtual, distributed game studio. By restricting specialized LLMs into hyper-focused "job roles" and equipping them with low-level infrastructural tools via MCP, the repository transforms a creative 
-game design vision into verified, structured gameplay logic, asset pipelines, and deployment-ready software configurations.
-
-No humans involved. You are the CEO/Publisher; they are your automated software execution mesh.
+An automated, self-healing game generation engine structured as an explicit Directed Acyclic Graph (DAG) of Model Context Protocol (MCP) servers. Designed to transform raw game concepts into fully realized, text-compiled 2D pixel games inside the Godot 4 Engine.
 
 ---
 
-## 🏗️ Architectural Topology
+## 🛠️ System Architecture
 
-The system operates like an event-driven task router (inspired by the Solace Agent Mesh). Agents do not engage in chaotic group chats; they publish structured state modifications (`.json` artifacts) 
-to a shared workspace, passing strict boundaries and instructions down the hierarchy.
+The pipeline decouples the LLM "brain" from local file execution, allowing highly complex orchestration to run seamlessly on restricted development hardware. By utilizing a **Single-Writer Rule** and **Git-backed automated checkpoints**, the framework ensures deterministic state evolution without file contention or compilation decay.
 
-### 🧠 Cross-Model Strategic Allocation
-To maximize processing performance and keep API resource credits optimal, specific models are assigned based on mathematical and technical strengths:
-* **Claude 3.5 Sonnet / Opus:** Powers the **Technical Department & Infrastructure**. Handles complex state logic, terminal process execution, and system formatting.
-* **GPT-4o:** Powers the **Design & Logic Department**. Handles structured coordinate layouts, node configurations, and gameplay rule graphs.
-* **Gemini 1.5 Pro:** Powers the **Asset Pipeline Department**. Utilizes its massive context window to ingest entire asset manifests, frame rendering logs, and media configurations simultaneously.
+### The Pipeline Blueprint (DAG Layout)
 
----
+```plaintext
+MCP-Multi-Godot/
+├── 01_Pre-Production MCP       # GDD generation & compiles master 'game_manifest.json'
+├── 02_Godot Structure MCP      # Initializes file tree & creates baseline project.godot
+├── 03_Addon Package MCP        # Downloads zip/git plugins (e.g. Dialogic) into res://addons/
+├── 04_Project Preset MCP       # Injects global engine presets & export template profiles
+├── 05_Art MCP                  # Slices sprite sheets, textures, and asset files
+├── 06_Animation MCP            # Generates SpriteFrames configurations & blend trees
+├── 07_Static Data MCP          # Formats immutable item tables, dictionaries, & dialog strings
+├── 08_Prototype MCP            # Injects input maps, core kinematics, & player vectors
+├── 09_Camera MCP               # Configures camera rigs, follow smoothing, & camera framing
+├── 10_Enemy AI MCP             # Injects enemy state machines, navigation, & pathfinding
+├── 11_World Building MCP       # Compiles grid layers, tilemaps, & physical terrain matrices
+├── 12_Scene Composition MCP    # Populates worlds with doors, triggers, items, & enemy spawns
+├── 13_VFX & Particle MCP       # Sets up hit-flashes, screen-shakes, & GPUParticles2D nodes
+├── 14_UI MCP                   # Builds Control node interfaces, main menu, & HUD scenes
+├── 15_Sound MCP                # Maps audio buses, environmental soundscapes, & sound triggers
+├── 16_Local Save MCP           # Sets up serialization/deserialization to user:// for progress
+├── 17_Polisher MCP             # Self-healing engine: reads bug reports & patches GDScript
+├── 18_Playtester MCP           # Automated headless testing suite (validates node trees)
+├── 19_Build & Deploy MCP       # Compiles binaries & automates deployment to Itch.io via Butler
+│
+├── game_manifest.json          # THE DATA CONTRACT: Single Source of Truth
+├── mcp_router.py               # Central Orchestration Control Plane (DAG Coordinator)
+├── .env.example                # Cloud API keys (Gemini/Groq) & local target paths
+└── godot_project/              # Isolated, text-compiled Godot Engine workspace
 
-## 🏢 Department Breakdown & Constraints
-
-Agents perform 10x better when boxed into a role. Each sub-agent is strictly sandboxed by custom system prompts and specific MCP capability profiles.
-
-### I. Technical Department (The Core Loop)
-Responsible for executing scripts simulating the game frame loop lifecycle: Input Handling, State/Delta Time Calculations, Rendering Pipelines, and Audio Triggers.
-* **Input & Window Sub-Agent:** Maps OS keystrokes and core tick rates.
-* **State & Physics Sub-Agent:** Focuses strictly on coordinate vector math, delta time bounds, and boundary collision boundaries.
-* *Tools via MCP:* Access to compiling runtimes, file validation, and system environment builders.
-
-### II. Design & Logic Department (Core Mechanics)
-Responsible for defining the player "verbs" and progression pathways.
-* **Mechanics Sub-Agent:** Generates logic rules for entity states (e.g., jumping, health metrics, damage vectors).
-* **Level & Layout Sub-Agent:** Translates structural design schemas into tight coordinate patterns.
-* *Constraints:* Cannot execute host code directly; can only output raw schema contracts (e.g., JSON maps) for the Technical Dept to ingest.
-
-### III. Asset Pipeline Department (Media & Manifests)
-Responsible for structural verification of content rendering and audio bindings.
-* **Visual Formatting Sub-Agent:** Validates sprite dimensions, texture maps, and formatting parameters.
-* **Audio Processing Sub-Agent:** Hooks background scores and spatial event cues directly to internal triggers.
-
----
-
-## 🛠️ Infrastructure Stack & MCP Layer
-
-This repository focuses entirely on the **software orchestration and infrastructure layers** of game deployment. 
-
-* **Orchestration:** Python-based asynchronous event routing engine (supporting LangGraph state frameworks for DAG-based execution).
-* **Protocol:** Native Model Context Protocol (MCP) JSON-RPC standard.
-* **Interface:** Beautiful, multi-pane terminal monitoring dashboard utilizing `Rich` / `Textual` in Python to inspect real-time agent execution streams, infrastructure load, and log generation.
+```
 
 ---
 
-## 🚀 The Operational Pipeline Flow
+## 🏗️ Core Engineering Guardrails
 
-1. **The Executive Vision:** The CEO passes a prompt via the CLI dashboard: *"Build a 2D top-down cyberpunk room where hitting the spacebar changes the room's gravity."*
-2. **Deconstruction:** The Head Manager breaks the vision into sub-tasks, routing data blueprints to respective Department Leads.
-3. **Local Tool Execution:** Workers call local MCP servers to read template assets, manipulate configuration maps, or check build parameters.
-4. **The Convergent Breakpoint:** Before anything is deployed to local infrastructure, the mesh hits an intentional execution breakpoint, presenting an approval dashboard in your terminal detailing 
-system state, metrics, and generated schemas.
-5. **Approve / Send Back:** You choose to approve production deployment or reject it with programmatic feedback that cascades back into the mesh.
+To distribute this pipeline reliably and scale it across limited hardware environments, `mcp_router.py` strictly enforces three systems programming principles:
+
+### 1. The Single-Writer Rule (Mutual Exclusion)
+
+To completely eliminate race conditions and file system conflicts, multiple MCP servers are never permitted to access or modify the same workspace asset concurrently.
+
+* The orchestration layer locks execution down to a strict linear step sequence.
+* For instance, `02_Godot Structure MCP` exclusively owns the filesystem initialization; once finalized, its write-lock passes cleanly down the DAG to `04_Project Preset MCP` to configure parameters.
+
+### 2. State-Based Checkpointing & Deterministic Rollbacks
+
+Every node, scene (`.tscn`), and script (`.gd`) in Godot is fundamentally represented as plain text. The pipeline exploits this property by treating the workspace as a database tracked via local version control.
+
+* Upon the successful conclusion of any given DAG stage, the router automatically executes a local checkpoint:
+```bash
+git add . && git commit -m "Pipeline Checkpoint: Stage [X] Verified"
+
+```
 
 
-![Agent Mesh](Images/Agent-Workflow.png)
+* If a critical generation error occurs down-line (e.g., `14_UI MCP` corrupts a UI layout sequence), the `18_Playtester MCP` intercepts the scene compilation breakdown, registers a failure condition, and issues a deterministic rollback command:
+```bash
+git reset --hard HEAD
+
+```
+
+
+The pipeline safely drops back to the last known-good state before retrying or reporting.
+
+### 3. The `game_manifest.json` Contract
+
+All downstream generative execution acts as a pure, deterministic function of a single, immutable JSON contract: the `game_manifest.json`.
+
+* Compiled dynamically in Stage 1, this file outlines arrays for entity types, static data tables, tile mapping constraints, and state transitions.
+* Downstream servers cannot hallucinate structural variations; they parse explicit keys from the manifest (e.g., `manifest["enemy_types"]`) to construct state machines and variables.
+
+---
+
+## ⚡ Hardware & Environment Optimizations
+
+The pipeline is intentionally architected to navigate tight local hardware boundaries (e.g., Dual-Core CPUs / 8GB RAM environments) with hyper-efficient resource management:
+
+* **Decoupled Heavy Compute:** Local scripts execute text-parsing, asset orchestration, and directory management at near-zero CPU footprint. Heavy generative processing is offloaded over highly responsive, cloud-hosted API tiers (Gemini Flash / Groq) via integrated streaming context wrappers.
+* **Headless Verification:** `18_Playtester MCP` runs automated unit testing suites utilizing Godot's native command-line parameters (`godot --headless --script test_suite.gd`). This processes node compliance and structural syntax checks entirely inside virtual memory, bypassing heavy graphic engine rendering cycles and avoiding system memory starvation.
+
+```
