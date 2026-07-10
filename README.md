@@ -87,5 +87,3 @@ The pipeline is intentionally architected to navigate tight local hardware bound
 
 * **Decoupled Heavy Compute:** Local scripts execute text-parsing, asset orchestration, and directory management at near-zero CPU footprint. Heavy generative processing is offloaded over highly responsive, cloud-hosted API tiers (Gemini Flash / Groq) via integrated streaming context wrappers.
 * **Headless Verification:** `18_Playtester MCP` runs automated unit testing suites utilizing Godot's native command-line parameters (`godot --headless --script test_suite.gd`). This processes node compliance and structural syntax checks entirely inside virtual memory, bypassing heavy graphic engine rendering cycles and avoiding system memory starvation.
-
-```
